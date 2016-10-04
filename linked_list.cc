@@ -60,6 +60,25 @@ std::vector<int> to_vector(Node* head) {
  */
 void delete_last_element(Node*& head){
   // ******** WRITE YOUR CODE HERE ********
+  Node* nexter;
+  Node* curr = head;
+  
+  for(int i = 0; i < size(head); i++){
+		if(size(head) == 1){
+			head = NULL;
+			delete curr;
+	}
+		
+		else{
+			nexter = curr -> next;
+			if(nexter -> next == NULL){
+				curr->next = NULL;
+				//delete nexter;
+				break;
+			}
+		}
+		curr = curr -> next;
+	}
 
 }
 
@@ -74,7 +93,22 @@ void delete_last_element(Node*& head){
  */ 
 void remove(Node*& head, int oldKey) {
   // ******** WRITE YOUR CODE HERE ********
-
+	Node* nexter;
+	for(Node* curr = head; curr!= NULL; curr = curr -> next){
+		if((size(head) == 1 )&& (curr -> key == oldKey)){
+			head = NULL;
+			delete curr; 
+		}
+		
+		else {
+			nexter = curr -> next;
+			if(nexter -> key == oldKey){
+				curr -> next = nexter -> next; 
+				delete nexter;
+				break;
+			}
+		}
+	}
 }
 
 /**
@@ -88,7 +122,29 @@ void remove(Node*& head, int oldKey) {
  */
 void insert_after(Node* head, int oldKey, int newKey){
   // ******** WRITE YOUR CODE HERE ********
-
+	Node* nexter;
+	
+	for(Node* curr = head; curr!= NULL; curr = curr -> next){
+		if((size(head) == 1 )&& (curr -> key == oldKey)){
+			Node * newNode = new Node;
+			newNode -> key = newKey;
+			newNode -> next = NULL;
+			curr->next = newNode; 
+		}
+		
+		else {
+			
+			if(curr -> key == oldKey){
+				nexter = curr -> next;
+				Node * newNoder = new Node;
+				newNoder -> key = newKey;
+				curr -> next = newNoder;
+				newNoder -> next = nexter;
+				break;
+			}
+		}
+	}
+  
 }
 
 /** 
@@ -103,6 +159,64 @@ void insert_after(Node* head, int oldKey, int newKey){
  */
 Node* interleave(Node* list1, Node* list2){
   // ******** WRITE YOUR CODE HERE ********
-  return NULL;  // ******** DELETE THIS LINE ********
+
+  Node* final_List = NULL;
+  Node* return_List = NULL;	 
+  Node* curr_list1 = list1;
+  Node* curr_list2 = list2;
+  
+ 
+int num;
+
+if(list1 && list2){
+
+num = size(list1) + size(list2);
+for(int i = 0; i < num; i++)  {
+  if(curr_list1 != NULL){
+	  insert(final_List, curr_list1 -> key);
+	  curr_list1 = curr_list1 -> next;
+  }
+  
+  if(curr_list2 != NULL){
+	insert(final_List, curr_list2 -> key);
+	  curr_list2 = curr_list2 -> next;
+  }
+
+	}
 
 }
+
+else if (list1!= NULL && list2 == NULL){
+num = size(list1);
+
+for(int i = 0; i < num; i++)  {
+  if(curr_list1 != NULL){
+	  insert(final_List, curr_list1 -> key);
+	  curr_list1 = curr_list1 -> next;
+  }
+
+}
+}
+
+else if (list1 == NULL && list2 != NULL){
+num = size(list2);
+
+for(int i = 0; i < num; i++)  {
+  if(curr_list2 != NULL){
+	  insert(final_List, curr_list2 -> key);
+	  curr_list2 = curr_list2 -> next;
+  }
+
+}
+}
+
+if(size(final_List)>=1)
+  while(final_List != NULL){
+	insert(return_List, final_List -> key);
+	  final_List = final_List -> next;
+  }
+
+
+return return_List;	  
+}
+
